@@ -73,16 +73,16 @@
       }
     }
 */
-#loader {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      z-index: 1;
-      width: 120px;
-      height: 120px;
-      margin: -76px 0 0 -76px;
-      display: none;
-}
+      #loader {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        z-index: 1;
+        width: 120px;
+        height: 120px;
+        margin: -76px 0 0 -76px;
+        display: none;
+      }
     </style>
   </head>
   <body>
@@ -90,8 +90,8 @@
       <button onclick="connectMetamask()">CONNECT TO METAMASK</button>
       <p id="userArea">Status: Not connected to Metamask</p>
 
-      <button onclick="connectContract()">CONNECT TO CONTRACT</button>
-      <p id="contractArea">Status: Not connected to Contract</p>
+      <!-- <button onclick="connectContract()">CONNECT TO CONTRACT</button>
+      <p id="contractArea">Status: Not connected to Contract</p> -->
 
       <button onclick="getBalanceApple()">GET BALANCE OF THE CONTRACT</button>
       <input type="text" id="blsaddress" placeholder="Enter Address" />
@@ -120,9 +120,6 @@
             "userArea"
           ).innerHTML = `User Account: ${account}`;
         }
-      };
-
-      const connectContract = async () => {
         const ABI = [
           {
             inputs: [
@@ -216,18 +213,16 @@
         const Address = "0x6ea12BbeaD3E84d00428fd600E85Da545C836979";
         window.web3 = await new Web3(window.ethereum);
         window.contract = await new window.web3.eth.Contract(ABI, Address);
-        document.getElementById("contractArea").innerHTML =
-          "Connected to Contract";
       };
 
       const getBalanceApple = async () => {
         const address = document.getElementById("blsaddress").value;
-        const data = await window.contract.methods
+        let data = await window.contract.methods
           .withdrawals_balance(address)
           .call();
-        document.getElementById(
-          "balanceArea"
-        ).innerHTML = `Contract Balance: ${data}`;
+        data = data/(10**18);  
+
+        document.getElementById("balanceArea").innerHTML = `Contract Balance: ${data}`;
       };
 
       const withdraw = async () => {
